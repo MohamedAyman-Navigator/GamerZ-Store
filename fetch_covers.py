@@ -6,8 +6,8 @@ import time
 # CONFIGURATION
 # ==========================================
 # TODO: Enter your Twitch/IGDB API Keys here
-CLIENT_ID = 'dieqxc999ufpwf6s7cpta2qn894fwm'
-CLIENT_SECRET = 'v21sdv1zm5bykira88pot7fl3n1fnc'
+CLIENT_ID = 'PASTE YOUR API KEY HERE'
+CLIENT_SECRET = 'PASTE YOUR API KEY HERE'
 
 # Database Connection String
 DB_CONFIG = {

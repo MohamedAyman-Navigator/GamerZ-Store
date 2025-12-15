@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.secret_key = 'gamerz_secret_key_2025'
 
 # ---------- CONFIG ----------
-GEMINI_API_KEY = "PASTE YOUR API HERE"
+GEMINI_API_KEY = "PASTE YOUR API KEY HERE"
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
