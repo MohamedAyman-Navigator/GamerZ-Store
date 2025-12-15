@@ -47,8 +47,8 @@
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/MohamedAyman-Navigator/GamerZ-Gaming-Store.git
-    cd GamerZ-Gaming-Store
+    git clone https://github.com/MohamedAyman-Navigator/GamerZ-Store.git
+    cd GamerZ-Store
     ```
 
 2.  **Create a Virtual Environment**
