@@ -6,16 +6,16 @@ import time
 # CONFIGURATION
 # ==========================================
 # TODO: Enter your Twitch/IGDB API Keys here
-CLIENT_ID = 'PASTE YOUR API KEY HERE'
-CLIENT_SECRET = 'PASTE YOUR API KEY HERE'
+CLIENT_ID = 'dieqxc999ufpwf6s7cpta2qn894fwm'
+CLIENT_SECRET = 'v21sdv1zm5bykira88pot7fl3n1fnc'
 
 # Database Connection String
 DB_CONFIG = {
     'driver': '{ODBC Driver 18 for SQL Server}',
     'server': 'localhost',
     'database': 'Gamerz__db',
-    'uid': 'sa',
-    'pwd': 'GamerZ_Password123',
+    'uid': 'YOUR_SQL_USERNAME',
+    'pwd': 'YOUR_SQL_PASSWORD',
     'TrustServerCertificate': 'yes'
 }
 

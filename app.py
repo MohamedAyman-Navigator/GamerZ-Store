@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.secret_key = 'gamerz_secret_key_2025'
 
 # ---------- CONFIG ----------
-GEMINI_API_KEY = "PASTE YOUR API KEY HERE"
+GEMINI_API_KEY = "PASTE YOUR API HERE"
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -35,8 +35,8 @@ DB_CONFIG = {
     "DRIVER": "{ODBC Driver 18 for SQL Server}",
     "SERVER": "localhost",
     "DATABASE": "Gamerz__db",
-    "UID": "sa",
-    "PWD": "GamerZ_Password123",
+    "UID": "YOUR_SQL_USERNAME",
+    "PWD": "YOUR_SQL_PASSWORD",
 }
 
 def get_db_connection():
