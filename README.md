@@ -90,12 +90,31 @@
         GEMINI_API_KEY = "YOUR_GOOGLE_GEMINI_API_KEY"
         ```
 
+7.  **Fetch Game Covers (IGDB)**
+    *   To populate game covers from the IGDB database, you need Twitch Developer credentials.
+    *   Open `fetch_covers.py` and add your Client ID and Client Secret:
+        ```python
+        CLIENT_ID = 'YOUR_TWITCH_CLIENT_ID'
+        CLIENT_SECRET = 'YOUR_TWITCH_CLIENT_SECRET'
+        ```
+    *   Run the script to fetch and update covers:
+        ```bash
+        python fetch_covers.py
+        ```
+
 ### Running the Application
 
-```bash
-python app.py
-```
-The application will start at `http://127.0.0.1:5000`.
+1.  **Start the Flask Server**:
+    ```bash
+    python app.py
+    ```
+2.  **Access the Store**:
+    *   Open your web browser and navigate to: `http://127.0.0.1:5000`
+    *   You should see the GamerZ home page.
+
+3.  **Access Admin Dashboard**:
+    *   Log in with an admin account (User ID 1).
+    *   Go to `http://127.0.0.1:5000/admin`.
 
 ---
 
