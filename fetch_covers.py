@@ -14,8 +14,8 @@ DB_CONFIG = {
     'driver': '{ODBC Driver 18 for SQL Server}',
     'server': 'localhost',
     'database': 'Gamerz__db',
-    'uid': 'YOUR_SQL_USERNAME',
-    'pwd': 'YOUR_SQL_PASSWORD',
+    'uid': 'sa',
+    'pwd': 'GamerZ_Password123',
     'TrustServerCertificate': 'yes'
 }
 

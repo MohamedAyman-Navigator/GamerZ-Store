@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.secret_key = 'gamerz_secret_key_2025'
 
 # ---------- CONFIG ----------
-GEMINI_API_KEY = "PASTE YOUR API HERE"
+GEMINI_API_KEY = "AIzaSyCBqDece73FnzEfcMFqRUEGK57aDQOwYMg"
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -25,7 +25,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # ---------- AI MODEL SETUP ----------
 try:
     genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    model = genai.GenerativeModel('gemini-2.5-flash')
 except Exception as e:
     print(f"Error configuring AI: {e}")
     model = None
@@ -35,8 +35,8 @@ DB_CONFIG = {
     "DRIVER": "{ODBC Driver 18 for SQL Server}",
     "SERVER": "localhost",
     "DATABASE": "Gamerz__db",
-    "UID": "YOUR_SQL_USERNAME",
-    "PWD": "YOUR_SQL_PASSWORD",
+    "UID": "sa",
+    "PWD": "GamerZ_Password123",
 }
 
 def get_db_connection():
@@ -324,6 +324,40 @@ def game_details(game_id):
     conn.close()
     return render_template('game_details.html', game=game, extras=extras, owned_game_ids=owned_game_ids, recommended_games=recommended_games)
 
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Check for existing user
+        cur.execute("SELECT id FROM dbo.users WHERE username = ? OR email = ?", (username, email))
+        if cur.fetchone():
+            flash('Username or Email already exists!')
+            conn.close()
+            return redirect(url_for('signup'))
+
+        hashed_pw = generate_password_hash(password)
+        
+        # Use a default profile photo
+        default_photo = 'assets/profile.jpg'
+
+        cur.execute("INSERT INTO dbo.users (username, email, password, profile_photo) VALUES (?, ?, ?, ?)",
+                    (username, email, hashed_pw, default_photo))
+        conn.commit()
+        conn.close()
+
+        flash('Account created! Please log in.')
+        return redirect(url_for('login'))
+
+    return render_template('signup.html')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -510,6 +544,9 @@ def admin_delete(game_id):
 
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
+    if 'user_id' not in session:
+        return jsonify({"status": "unauthorized"}), 401
+
     data = request.json
     game_id = data.get('game_id')
 
@@ -565,6 +602,9 @@ def clear_cart():
 
 @app.route('/checkout')
 def checkout():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     if 'cart' not in session or not session['cart']:
         return redirect(url_for('home'))
 
@@ -645,66 +685,6 @@ def chat():
     except Exception as e:
         print(f"AI ERROR: {e}")
         return jsonify({"reply": f"Technical Error: {e}"})
-
-
-def mh_wilds():
-    item = {
-        'title': "Monster Hunter Wilds",
-        'image': "/static/assets/featured/featured_mh.jpg",
-        'category': "Action RPG",
-        'rating': "TBD",
-        'description': "The next generation of the hunt is here. Monster Hunter Wilds brings a new level of immersion, seamless open-world exploration, and the most ferocious monsters yet. Pre-order now to secure exclusive in-game bonuses.",
-        'price': "69.99",
-        'specs': [
-            "Release Date: Feb 28, 2025",
-            "Platform: PC, PS5, Xbox Series X",
-            "Co-op: Up to 4 Players",
-            "Engine: RE Engine",
-            "Open World: Seamless"
-        ]
-    }
-    return render_template('hardware_details.html', item=item)
-
-@app.route('/preorder-gta6')
-def gta6_preorder():
-    item = {
-        'title': "Grand Theft Auto VI",
-        'image': "/static/assets/featured/featured_gta.jpg",
-        'category': "Open World Action",
-        'rating': "RP",
-        'description': "Welcome to Leonida. Grand Theft Auto VI heads to the state of Leonida, home to the neon-soaked streets of Vice City and beyond in the biggest, most immersive evolution of the Grand Theft Auto series yet.",
-        'price': "69.99",
-        'specs': [
-            "Release Date: Fall 2025 (Delayed to Nov 2026)",
-            "Location: Vice City / Leonida",
-            "Protagonists: Lucia & Jason",
-            "Map Size: Largest ever",
-            "Online: GTA Online 2.0 included"
-        ]
-    }
-    return render_template('hardware_details.html', item=item)
-
-@app.route('/hardware/<id>')
-def hardware_details(id):
-    # Hardcoded data for demo purposes
-    if id == '5090':
-        item = {
-            'title': "NVIDIA GeForce RTX 5090",
-            'image': "/static/assets/featured/featured_rtx.jpg",
-            'category': "Graphics Card",
-            'rating': "9.9",
-            'description': "The new king of gaming GPUs. Powered by the Blackwell architecture, the RTX 5090 delivers unprecedented performance for 8K gaming and professional AI workflows. Featuring 32GB of next-gen GDDR7 memory and DLSS 4.0 support.",
-            'price': "1,999.00",
-            'specs': [
-                "Architecture: Blackwell",
-                "VRAM: 32GB GDDR7",
-                "Bus Width: 512-bit",
-                "Boost Clock: 3.1 GHz",
-                "DLSS 4.0 with Frame Gen 2"
-            ]
-        }
-        return render_template('hardware_details.html', item=item)
-    return "Item not found", 404
 
 
 @app.route('/view_all/<category>')

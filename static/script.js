@@ -525,6 +525,11 @@ async function addToCart(gameId) {
             body: JSON.stringify({ game_id: numericId })
         });
 
+        if (response.status === 401) {
+            showGuestWarning();
+            return;
+        }
+
         const data = await response.json();
 
         if (data.status === 'success') {
@@ -871,4 +876,34 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initScrollAnimation);
 } else {
     initScrollAnimation();
+}
+/* =========================================
+   12. GUEST WARNING FUNCTION
+   ========================================= */
+function showGuestWarning() {
+    // Check if modal already exists
+    if (document.querySelector('.custom-modal')) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'custom-modal';
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</span>
+            <i class="fas fa-user-lock" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+            <h2>Access Restricted</h2>
+            <p>Please login or create an account to manage your shopping cart.</p>
+            <div class="modal-actions">
+                <a href="/login" class="modal-btn login">LOGIN</a>
+                <a href="/signup" class="modal-btn signup">SIGN UP</a>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+    });
 }

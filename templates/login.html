@@ -33,6 +33,7 @@
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .auth-box::before {
@@ -145,7 +146,7 @@
 
     <div class="auth-container">
         <div class="auth-box">
-            <h1 class="auth-title">SYSTEM LOGIN</h1>
+            <h1 class="auth-title" style="animation: fadeIn 1s ease-out 0.3s backwards;">SYSTEM LOGIN</h1>
 
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -154,17 +155,18 @@
             {% endwith %}
 
             <form action="/login" method="POST">
-                <div class="input-group">
+                <div class="input-group" style="animation: slideInRight 0.5s ease-out 0.4s backwards;">
                     <label>USERNAME</label>
                     <input type="text" name="username" placeholder="Enter codename..." required>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" style="animation: slideInRight 0.5s ease-out 0.6s backwards;">
                     <label>PASSWORD</label>
                     <input type="password" name="password" placeholder="••••••••" required>
                 </div>
 
-                <button type="submit" class="auth-btn">ACCESS TERMINAL</button>
+                <button type="submit" class="auth-btn" style="animation: fadeInUp 0.5s ease-out 0.8s backwards;">ACCESS
+                    TERMINAL</button>
             </form>
 
             <div class="auth-footer">
