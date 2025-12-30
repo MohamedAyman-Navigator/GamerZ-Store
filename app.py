@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.secret_key = 'gamerz_secret_key_2025'
 
 # ---------- CONFIG ----------
-GEMINI_API_KEY = "AIzaSyCBqDece73FnzEfcMFqRUEGK57aDQOwYMg"
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -23,12 +23,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ---------- AI MODEL SETUP ----------
+model = None
 try:
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel('gemini-2.5-flash')
+    if GEMINI_API_KEY:
+        genai.configure(api_key=GEMINI_API_KEY)
+        model = genai.GenerativeModel('gemini-2.5-flash')
+    else:
+        print("Warning: GEMINI_API_KEY not found. AI features disabled.")
 except Exception as e:
     print(f"Error configuring AI: {e}")
-    model = None
+
 
 # ---------- DATABASE CONFIG ----------
 DB_CONFIG = {
